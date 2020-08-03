@@ -5,56 +5,37 @@ using namespace std;
 
 class Solution {
 public:
-	bool detectCapitalUse(string word) 
-	{
-		//a 97 z 122 A 65 Z 90
-		bool first_capital = false;
-		int first = (int)word[0];
-
-		if (first >= 65 && first <= 90) first_capital = true;
-
-		int len = word.length();
-
-		if (first_capital)
-		{
-			bool ret = true;
-			bool all_cap = false;
-			for (int i = 1; i < len; i++)
-			{
-				int tmp = (int)word[i];
-				if (i == 1 && tmp >= 65 && tmp <= 90) all_cap = true;
-
-				if (all_cap && (tmp < 65 || tmp>90))
-				{
-					ret = false;
-					break;
-				}
-
-				else if (!all_cap && tmp >= 65 && tmp <= 90)
-				{
-					ret = false;
-					break;
-				}
-			}
-			return ret;
-		}
-
-		else
-		{
-			bool ret = true;
-			for (int i = 1; i < len; i++)
-			{
-				int tmp = (int)word[i];
-				if (tmp < 97 || tmp>122)
-				{
-					ret = false;
-					break;
-				}
-			}
-			return ret;
-		}
-		
-	}
+    bool isLittle(string word){
+        for (char& c : word){
+            if (c<97 || c>122){
+                return false;
+            }
+        }
+        return true;
+    }
+    bool isCapital(string word){
+        for (char& c : word){
+            if (c<65 || c>90){
+                return false;
+            }
+        }
+        return true;
+    }
+    bool detectCapitalUse(string word,bool FirstIsCap){
+        if (FirstIsCap){
+            return isCapital(word) || isLittle(word);
+        }else{
+            return isLittle(word);
+        }
+    }
+    bool detectCapitalUse(string word) {
+        if (word.length()==0) return true;
+        char c = word.at(0);
+        if (c<65 || c>90){
+            return detectCapitalUse(word.substr(1),false);
+        }
+        return detectCapitalUse(word.substr(1),true);
+    }
 };
 
 int main()
