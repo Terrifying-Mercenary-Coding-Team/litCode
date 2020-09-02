@@ -21,17 +21,15 @@ class Solution:
         :rtype: The number of actual characters read (int)
         """
         cur = 0
-        is_end = False
         while cur < n:
-            tmp_buf = []
+            tmp_buf = ['']*4
             tmp_ret = read4(tmp_buf)
+            buf[cur:tmp_ret] = tmp_buf[:tmp_ret]
             cur += tmp_ret
-            buf.extend(tmp_buf)
             if tmp_ret < 4:
-                is_end = True
                 break
 
-        if not is_end:
+        if n < cur:
             cur = n
-            buf = buf[:n]
+        buf = buf[:cur]
         return cur
